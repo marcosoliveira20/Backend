@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.hackaton.backend.model.repository.*;
-import com.hackaton.backend.model.entity.*;;
+import com.hackaton.backend.model.entity.Cliente;
+import com.hackaton.backend.model.repository.ClienteRepository;;
 
 
 
@@ -33,9 +33,13 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente salvar (@RequestBody @Valid Cliente cliente) {
-		return repository.save(cliente);
-		
+	public  Cliente salvar (@RequestBody @Valid Cliente cliente) {
+		try {	
+			return repository.save(cliente);
+					
+		}catch(Exception e) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Usuário já cadastrado" );
+		}
 	}
 	
 	@GetMapping("{id}")

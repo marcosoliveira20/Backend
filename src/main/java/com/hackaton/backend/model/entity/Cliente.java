@@ -30,7 +30,7 @@ public class Cliente {
 	@NotEmpty(message = "{campo.nome.obrigatorio}")
 	private String senha;
 	
-	@Column(nullable = false, length = 150)
+	@Column(nullable = false, length = 150, unique=true)
 	@NotEmpty(message = "{campo.nome.obrigatorio}")
 	private String email;
 	

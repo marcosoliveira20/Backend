@@ -1,5 +1,7 @@
 package com.hackaton.backend.rest;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,14 +36,16 @@ public class RestauranteController {
 		@PostMapping
 		@ResponseStatus(HttpStatus.CREATED)
 		public Restaurante salvar(@RequestBody @Valid Restaurante restaurante) {
+			try{
 			return repository.save(restaurante);
-
+			}catch(Exception e) {
+				throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Usuário já cadastrado" );
+			}
 		}
 
-		@GetMapping("{id}")
-		public Restaurante encontrarPorId(@PathVariable Integer id) {
-			return repository.findById(id)
-					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Restaurante não encontrado!"));
+		@GetMapping
+		public List<Restaurante> encontrarPorNome(@RequestParam String nome ) {
+			return repository.findByNome("%"+ nome+"%");
 
 		}
 
