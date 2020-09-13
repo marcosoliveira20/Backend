@@ -47,7 +47,7 @@ public class RestauranteController {
 	@GetMapping
 	public List<Restaurante> encontrarPorNome(@RequestParam String nome) {
 
-		return repository.findByNome("%" + nome + "%");
+		return repository.findByNomeContains(nome);
 
 	}
 
