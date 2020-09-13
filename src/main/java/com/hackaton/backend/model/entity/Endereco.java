@@ -30,7 +30,7 @@ public class Endereco {
 	@Column(nullable = false, length = 50)
 	private String bairro;
 	
-	@Column(name="fk_restaurante",nullable = false)
+	@Column(name="fk_restaurante")
 	private Integer fkRestaurante;
 	
 	@Column(name="data_cadastro", updatable = false)
