@@ -29,7 +29,7 @@ public class Item {
 	private Double preco;
 	
 	
-	@Column(columnDefinition = "default false")
+	@Column(columnDefinition = "boolean default false")
 	private boolean pronto;
 	
 	
