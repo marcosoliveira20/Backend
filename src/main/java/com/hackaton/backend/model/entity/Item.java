@@ -1,50 +1,38 @@
 package com.hackaton.backend.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hackaton.backend.config.AbstractEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import lombok.Data;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Item {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-	@Column(nullable = false)
+public class Item extends AbstractEntity {
+
+	@Column(name = "nome", nullable = false)
 	private String nome;
-	
-	
-	@Column(nullable = false)
+
+	@Column(name = "preco", nullable = false)
 	private Double preco;
-	
-	
-	@Column(columnDefinition = "boolean default false")
+
+	@Column(name = "pronto", columnDefinition = "boolean default false")
 	private boolean pronto;
-	
-	
-	@Column(name="fk_mesa",nullable = false)
-	private Integer fkMesa;
-	
-	
-	@Column(name="data_cadastro", updatable = false)
+
+	@ManyToOne
+	@JoinColumn(name = "fk_mesa", nullable = false, referencedColumnName = "id")
+	private Mesa fkMesa;
+
+	@Column(name = "data_cadastro", updatable = false)
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataCadastro;
-	
+
 	@PrePersist
 	public void prePersist() {
 		setDataCadastro(LocalDate.now());
 	}
-	
-	
+
 }

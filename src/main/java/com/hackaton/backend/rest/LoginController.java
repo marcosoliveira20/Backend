@@ -31,7 +31,7 @@ public class LoginController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public String loginCliente(@RequestBody Cliente email) {
 
-		Cliente cliente = clienteRepository.existsByEmail(email.getEmail());
+		Cliente cliente = clienteRepository.findByEmail(email.getEmail());
 		try {
 			if (cliente.getEmail() != null && cliente.getSenha() != null
 					&& cliente.getSenha().equals(email.getSenha())) {
@@ -49,7 +49,7 @@ public class LoginController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public String loginRestaurante(@RequestBody Restaurante email) {
 
-		Restaurante restaurante = restauranteRepository.existsByEmail(email.getEmail());
+		Restaurante restaurante = restauranteRepository.findByEmail(email.getEmail());
 		try {
 			if (restaurante.getEmail() != null && restaurante.getSenha() != null
 					&& restaurante.getSenha().equals(email.getSenha())) {

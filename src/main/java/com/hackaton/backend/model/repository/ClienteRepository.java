@@ -5,11 +5,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.hackaton.backend.model.entity.Cliente;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
- 
-    @Query("select c from Cliente c where c.email = :email")
-    Cliente existsByEmail(@Param("email") String email);
+
+    Cliente findByEmail(String email);
 
 }
