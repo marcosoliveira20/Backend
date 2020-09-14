@@ -36,10 +36,7 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
+		
 		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -63,6 +60,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>

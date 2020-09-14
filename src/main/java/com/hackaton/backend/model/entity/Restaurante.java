@@ -1,15 +1,19 @@
 package com.hackaton.backend.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hackaton.backend.config.AbstractEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hackaton.backend.config.AbstractEntity;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "restaurante")
@@ -37,6 +41,9 @@ public class Restaurante extends AbstractEntity {
 	@Column(name = "data_cadastro", updatable = false)
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataCadastro;
+	
+	@OneToMany(mappedBy = "fkRestaurante" )
+	private  List <Endereco> enderecos;
 
 	@PrePersist
 	public void prePersist() {
