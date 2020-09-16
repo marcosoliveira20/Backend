@@ -56,7 +56,6 @@ public class Restaurante  extends AbstractEntity {
 	private  List <Endereco> enderecos;
 	
 	@OneToMany(mappedBy = "fkRestaurante" )
-	@JsonManagedReference
 	private  List <Mesa> mesas;
 
 	@PrePersist

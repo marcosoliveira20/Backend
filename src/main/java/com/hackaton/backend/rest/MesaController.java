@@ -15,31 +15,42 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.hackaton.backend.dto.request.MesaRequestDTO;
 import com.hackaton.backend.model.entity.Mesa;
+import com.hackaton.backend.model.entity.Restaurante;
 import com.hackaton.backend.model.repository.MesaRepository;
+import com.hackaton.backend.model.repository.RestauranteRepository;
 
 @RestController
 @RequestMapping("/api/mesas")
 public class MesaController {
 	
 
-		private final MesaRepository repository;
+		private final MesaRepository mesaRepository;
+		private final RestauranteRepository restauranteRepository;
 
 		@Autowired
-		public MesaController(MesaRepository repository) {
-			this.repository = repository;
+		public MesaController(MesaRepository mesaRepository, RestauranteRepository restauranteRepository) {
+			this.mesaRepository = mesaRepository;
+			this.restauranteRepository = restauranteRepository;
 		}
 
 		@PostMapping
 		@ResponseStatus(HttpStatus.CREATED)
-		public Mesa salvar(@RequestBody Mesa mesa) {
-			return repository.save(mesa);
-
+		public Mesa salvar(@RequestBody MesaRequestDTO dto) {
+			Restaurante restaurante = restauranteRepository.findById(dto.getFkRestaurante()).get();
+			
+			Mesa mesa = new Mesa();
+			mesa.setFechada(dto.isFechada());
+			mesa.setFkRestaurante(restaurante);
+			mesa.setNumeroDaMesa(dto.getNumeroDaMesa());
+			
+			return mesaRepository.save(mesa);
 		}
 
 		@GetMapping("{id}")
 		public Mesa encontrarPorId(@PathVariable Integer id) {
-			return repository.findById(id)
+			return mesaRepository.findById(id)
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mesa não encontrado!"));
 
 		}
@@ -47,8 +58,8 @@ public class MesaController {
 		@DeleteMapping("{id}")
 		@ResponseStatus(HttpStatus.NO_CONTENT)
 		public void deletar(@PathVariable Integer id) {
-			repository.findById(id).map(mesa -> {
-				repository.delete(mesa);
+			mesaRepository.findById(id).map(mesa -> {
+				mesaRepository.delete(mesa);
 				return Void.TYPE;
 			}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mesa não encontrado!"));
 		}
@@ -57,9 +68,9 @@ public class MesaController {
 		@ResponseStatus(HttpStatus.NO_CONTENT)
 		public void atualizar(@PathVariable Integer id, @RequestBody @Valid Mesa mesaAtualizado) {
 
-			repository.findById(id).map(mesa -> {
+			mesaRepository.findById(id).map(mesa -> {
 				mesaAtualizado.setId(mesa.getId());
-				return repository.save(mesaAtualizado);
+				return mesaRepository.save(mesaAtualizado);
 
 			}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mesa não encontrado!"));
 		}

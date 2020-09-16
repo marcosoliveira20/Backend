@@ -47,8 +47,7 @@ public class EnderecoController {
 			endereco.setNumero(dto.getNumero());
 			endereco.setRua(dto.getRua());
 			endereco.setFkRestaurante(restaurante);
-			
-			
+
 			return enderecoRepository.save(endereco);
 
 		}

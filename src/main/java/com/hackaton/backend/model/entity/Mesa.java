@@ -5,14 +5,13 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.hackaton.backend.config.AbstractEntity;
 
 import lombok.AllArgsConstructor;
@@ -25,13 +24,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Mesa extends AbstractEntity {
 	
 	@Column(name = "numero_mesa", nullable = false)
 	private Integer numeroDaMesa;
 
 	@Column(name = "fechada")
-	private String fechada;
+	private boolean fechada;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_restaurante", referencedColumnName = "id")
