@@ -9,9 +9,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.hackaton.backend.config.AbstractEntity;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +25,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Restaurante  extends AbstractEntity {
 
 	@Column(name = "nome", nullable = false, length = 150)
@@ -49,7 +53,6 @@ public class Restaurante  extends AbstractEntity {
 	private LocalDate dataCadastro;
 	
 	@OneToMany(mappedBy = "fkRestaurante" )
-	@JsonBackReference
 	private  List <Endereco> enderecos;
 	
 	@OneToMany(mappedBy = "fkRestaurante" )
