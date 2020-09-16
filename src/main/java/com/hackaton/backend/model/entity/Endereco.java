@@ -9,18 +9,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
-import org.hibernate.annotations.TypeDef;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hackaton.backend.config.AbstractEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity(name = "endereco")
 @Data
-public class Endereco extends AbstractEntity {
+@NoArgsConstructor
+@Accessors(chain=true)
+@EqualsAndHashCode(callSuper = true)
+public class Endereco extends AbstractEntity  {
 
 	@Column(name = "rua", nullable = false, length = 250)
 	private String rua;
@@ -33,6 +36,7 @@ public class Endereco extends AbstractEntity {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_restaurante", referencedColumnName = "id")
+	@JsonManagedReference
 	private Restaurante fkRestaurante;
 
 	@Column(name = "data_cadastro", updatable = false)
@@ -43,4 +47,6 @@ public class Endereco extends AbstractEntity {
 	public void prePersist() {
 		setDataCadastro(LocalDate.now());
 	}
+	
+	
 }

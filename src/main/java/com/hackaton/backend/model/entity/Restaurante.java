@@ -9,16 +9,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hackaton.backend.config.AbstractEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity(name = "restaurante")
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class Restaurante extends AbstractEntity {
+@EqualsAndHashCode(callSuper = true)
+public class Restaurante  extends AbstractEntity {
 
 	@Column(name = "nome", nullable = false, length = 150)
 	@NotEmpty(message = "{campo.nome.obrigatorio}")
@@ -43,10 +49,30 @@ public class Restaurante extends AbstractEntity {
 	private LocalDate dataCadastro;
 	
 	@OneToMany(mappedBy = "fkRestaurante" )
+	@JsonBackReference
 	private  List <Endereco> enderecos;
+	
+	@OneToMany(mappedBy = "fkRestaurante" )
+	@JsonManagedReference
+	private  List <Mesa> mesas;
 
 	@PrePersist
 	public void prePersist() {
 		setDataCadastro(LocalDate.now());
 	}
+
+	public Restaurante(@NotEmpty(message = "{campo.nome.obrigatorio}") String nome,
+			@NotEmpty(message = "{campo.email.obrigatorio}") String email,
+			@NotEmpty(message = "{campo.senha.obrigatorio}") String senha, String horaAbertura, String horaFechamento,
+			LocalDate dataCadastro) {
+		super();
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.horaAbertura = horaAbertura;
+		this.horaFechamento = horaFechamento;
+		this.dataCadastro = dataCadastro;
+	}
+	
+	
 }

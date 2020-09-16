@@ -32,7 +32,7 @@ public class MesaController {
 
 		@PostMapping
 		@ResponseStatus(HttpStatus.CREATED)
-		public Mesa salvar(@RequestBody @Valid Mesa mesa) {
+		public Mesa salvar(@RequestBody Mesa mesa) {
 			return repository.save(mesa);
 
 		}

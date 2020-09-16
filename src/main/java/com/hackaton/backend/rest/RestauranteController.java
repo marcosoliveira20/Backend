@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.hackaton.backend.model.dao.InnerJoin;
+import com.hackaton.backend.dto.response.RestauranteResponseDTO;
 import com.hackaton.backend.model.entity.Restaurante;
 import com.hackaton.backend.model.repository.RestauranteRepository;
 
@@ -37,7 +37,7 @@ public class RestauranteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurante salvar(@RequestBody @Valid Restaurante restaurante) {
 		try {
-			InnerJoin.listarRestaurante(1);
+			
 			return repository.save(restaurante);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já cadastrado");
@@ -46,9 +46,8 @@ public class RestauranteController {
 
 	@GetMapping
 	public List<Restaurante> encontrarPorNome(@RequestParam String nome) {
-
+		
 		return repository.findByNomeContains(nome);
-
 	}
 
 	@DeleteMapping("{id}")

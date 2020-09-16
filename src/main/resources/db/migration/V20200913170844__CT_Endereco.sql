@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS endereco (
-    id INT NOT NULL AUTO_INCREMENT ,
+    id Integer NOT NULL AUTO_INCREMENT ,
 
     bairro VARCHAR(255) NOT NULL,
     data_cadastro DATE,
